@@ -14,16 +14,16 @@
 #                          - "change' name telephone number" - save new telephone number for existed contact
 #                          - "phone' name" - show telephone number
 #                          - "show all" - show all contacts (name telephone number)
-#new - V                   - "see' n" - show n records (you could use this command several times)
+#                          - "see' n" - show n records (you could use this command several times)
 #                          - "addnum' name telephone number" - add aditional tel number for certain contact
 #                          - "del' name telephone number" - del tel number for certain contact
-#new - V                   - "addbirth" name birthday - add date of birthday in data format
-#new - V                   - "nextbirth" name - show how many days left up to next birthday
-#new - V                   - "help" - bot show commands explanations
+#                          - "addbirth" name birthday - add date of birthday in data format
+#                          - "nextbirth" name - show how many days left up to next birthday
+#                          - "help" - bot show commands explanations
 #                          - "save" name - save data base in file: name (without extention) 
-#new - V                   - "load name" - load data base from file: name (without extention) 
-#new - V                   - "lookup' text" - find text in records (no difference which case of characters)
-#new - V                   - "good bye" or "close" or "exit" - bot stops work and messege "Good bye!"
+#                          - "load name" - load data base from file: name (without extention) 
+#                          - "lookup' text" - find text in records (no difference which case of characters)
+#                          - "good bye" or "close" or "exit" - bot stops work and messege "Good bye!"
 #
 #
 # Additional requirements_(module 10, 11):
@@ -36,7 +36,7 @@
 #                                          |__> fields (Field Class):
 #                                                      - required (Name Class) - only one
 #                                                      - optional (Phone Class) - one or more
-#new - V                                               - optional (Birthday Class) - only one 
+#                                                      - optional (Birthday Class) - only one 
 #
 #                AdressBook methods:
 
@@ -44,19 +44,19 @@
 #                                - del  record
 #                                - edit record              
 #                                - find record by fields
-#new - V                         - iterator - return --> generator by records -N records for 1 step
+#                               - iterator - return --> generator by records -N records for 1 step
 #
 #                                           Record methods: 
 #                                                 - add  field Phone
 #                                                 - del  field Phone
 #                                                 - edit field Phone
-#new - V                                          - days_to_birthday
+#                                                - days_to_birthday
 # 
 #                                                  Phone methods:
-#new - V                                                 - setter - check tel. num format (7777777777)
+#                                                         - setter - check tel. num format (7777777777)
 #
 #                                                  Birthday methods:
-#new - V                                                  - setter - check birthday format (28.05.1978)
+#                                                         - setter - check birthday format (28.05.1978)
 
 
 from multiprocessing.sharedctypes import Value
@@ -446,10 +446,7 @@ def save_func (name):
 
     with open(name + '.obj', 'wb') as report:
         pickle.dump(add_book.data, report)
-    
-    
-    
-       
+           
     with open(name + '.txt', 'w') as report:
            
         for key, value in add_book.data.items():                   
@@ -459,8 +456,7 @@ def save_func (name):
                 report.write(f"Name : {key} | Telephone numbers: {mystring} | Birthday: {value.record_dict['Birthday'].strftime('%A %d %B %Y')}\n")
             else:
                 
-                report.write(f"Name : {key} | Telephone numbers: {mystring}\n ")
-        
+                report.write(f"Name : {key} | Telephone numbers: {mystring}\n ")        
         
     print ('Data base has been saved successfully!')
 
@@ -498,7 +494,6 @@ def lookup_func(text):
         else:
             print('No information was found')
         
-
 def good_buy_func ():
     print('Good bye!')
     return 'stop'
