@@ -2,7 +2,34 @@
 # CLI - Command Line Interface
 #              Architecture :
 #                   - command`s parser
-#                   - command`s processing functions (handler) - in--> str out-->str
+#                   - decorator --> Rise exceptions
+#                   - command`s processing functions (Handlers):
+#                           - hello_func                            --- first greeting
+#                           - add_func         --> add_record       --- save new contact
+#                           - change_func      --> edit_phone       --- change  telephone number for existed contact
+#                           - phone_func                            --- show telephone number
+#                           - show_func                             --- show all contacts (name telephone number)
+#                           - see_func                              --- show n records (you could use this command several times)
+#                           - addnum_func      --> add_phone        --- add aditional tel number for certain contact
+#                           - del_func         --> del_phone        --- del tel number for certain contact
+#                           - birth_func                            --- add date of birthday in data format
+#                           - nextbirth_func   --> days_to_birthday --- show how many days left up to next birthday
+#                           - help_func                             --- bot show commands explanations
+#                           - save_func                             --- save data base in file: name (without extention) 
+#                           - load_func                                       --- load data base from file: name (without extention)
+#                           - lookup_func                                     --- find text in records (no difference which case of characters)
+#                           - good_buy_func                                   --- bot stops work and messege "Good bye!" 
+#new_func                   - del_record_hand     --> del_record              --- delete record from AddressBook 
+#new_func                   - add_email_head      --> add_email               --- add email to record (with regex check)
+#new_func                   - add_notes_head      --> add_notes               --- add notes to record  
+#new_func                   - add_adress_head     --> add_adress              --- add adress to record
+#new_func                   - find_notes_by_tages_head --> find_notes_by_tages --- looking up notes by tages (#tage#) 
+#new_func                   - sort_notes_by_tages_head --> sort_notes_by_tages --- sorting up notes by tages (#tage#)
+#new_func                   - sort_files                                       --- sort files in folder
+#new_func                   - guess_command                                    --- analizing taping and try to guess command
+#new_func                   - birthday_in_days_hand    --> birthday_in_days    --- display list of contacts, who have birthday in x days   
+#
+#
 #                   - request-answear loop
 
 # Input - dict(name: telephone number)
@@ -11,7 +38,7 @@
 #              - bot undestands commands:
 #                          - "hello" - answear: "How can I help you?"
 #                          - "add' name telephone number" - save new contact
-#                          - "change' name telephone number" - save new telephone number for existed contact
+#                          - "change' name telephone number" - change telephone number for existed contact
 #                          - "phone' name" - show telephone number
 #                          - "show all" - show all contacts (name telephone number)
 #                          - "see' n" - show n records (you could use this command several times)
@@ -26,37 +53,65 @@
 #                          - "good bye" or "close" or "exit" - bot stops work and messege "Good bye!"
 #
 #
-# Additional requirements_(module 10, 11):
+# Class_structure:
 #                  UserDict Class:
 #                         -user has Book of Contacts (AddressBook Class): 
 #                                 |__> records (Record Class): --> dict {Record.name.value: value}
 #                                                              --> Name object - separated atribute
 #                                                              --> Phone objects - separated atribute
+#new                                                           --> Notes objects - separated atribute
+#new                                                           --> Email objects - separated atribute
+#new                                                           --> Adress objects - separated atribute
 #
 #                                          |__> fields (Field Class):
 #                                                      - required (Name Class) - only one
 #                                                      - optional (Phone Class) - one or more
 #                                                      - optional (Birthday Class) - only one 
+#new                                                   - required (Notes Class) - one or more
+#new                                                   - required (Email Class) - one or more
+#new                                                   - required (Adress Class) - one
 #
 #                AdressBook methods:
 
 #                                - add_record --> add Record in self.data
-#                                - del  record
-#                                - edit record              
-#                                - find record by fields
-#                               - iterator - return --> generator by records -N records for 1 step
+#new_func                        - del_record
+#                                - iterator - return --> generator by records -N records for 1 step
+#new_func                        - find_notes_by_tages <-- find_notes_by_tages_head - looking up notes by tages (#tage#) in []
+#new_func                        - sort_notes_by_tages <-- sort_notes_by_tages_head - sorting up notes by tages (#tage#) in []
+#new_func                        - birthday_in_days    <-- birthday_in_days_head - display list of contacts, who have birthday in x days
 #
 #                                           Record methods: 
-#                                                 - add  field Phone
-#                                                 - del  field Phone
-#                                                 - edit field Phone
-#                                                - days_to_birthday
+#                                                 - add_phone <-- addnum_func - add aditional tel number for certain contact (with regex check)
+#                                                 - del_phone <-- del_func - del tel number for certain contact
+#                                                 - edit_phone <-- change_func - change telephone number for existed contact
+#                                                 - days_to_birthday <-- nextbirth_func - show how many days left up to next birthday
+#new_func                                         - add_email <-- add_email_head - add email to record (with regex check)
+#new_func                                         - add_notes <-- add_notes_head - add notes to record  
+#new_func                                         - add_adress<-- add_adress_head - add adress to record
+#
 # 
 #                                                  Phone methods:
 #                                                         - setter - check tel. num format (7777777777)
 #
 #                                                  Birthday methods:
 #                                                         - setter - check birthday format (28.05.1978)
+#
+#
+#                                                  Notes methods:
+#new_func                                                 - change_notes  <-- change_notes_head - change notes in record
+#new_func                                                 - del_notes     <-- del_notes_head -    delete notes in record  
+#
+#
+#
+#                                                  Email methods:
+#new_func                                                 - change_email <-- change_email_head - change email in record (with regex check)
+#
+#
+#                                                  Adress methods:
+#new_func                                                 - change_adress <-- change_adress_head - change adress in record 
+#
+#
+
 
 
 from multiprocessing.sharedctypes import Value
@@ -99,6 +154,21 @@ class AddressBook (UserDict):
             x += 1
             page += 1
             yield x
+
+    def del_record(self):
+        pass
+
+
+    def find_notes_by_tages(self):
+        pass
+
+
+    def sort_notes_by_tages(self):
+        pass
+
+    
+    def birthday_in_days(self):
+        pass
                         
 class Field:
     pass
@@ -127,6 +197,29 @@ class Phone (Field):
 
         else:
             print ('Telephone number does not match format!')
+
+class Notes (Field):
+    
+    
+    def change_notes(self):
+        pass
+
+    def del_notes (self):
+        pass
+
+
+class Email (Field):
+    
+    
+    def change_email(self):
+        pass
+
+
+class Adress (Field):
+    
+    def change_adress(self):
+        pass
+
        
 class Birthday (Field):
     
@@ -203,6 +296,18 @@ class Record:
             difference = this_year_birthday - datetime.now()
 
         print(f'{name} should wait {difference.days} days until next birthday!')
+
+
+    def add_email(self):
+        pass
+
+
+    def add_notes(self):
+        pass
+
+
+    def add_adress(self):
+        pass
 
 class TelDoesNotMathFormatError(Exception):
     status = 0
@@ -494,6 +599,34 @@ def lookup_func(text):
         else:
             print('No information was found')
         
+def del_record_hand():
+    pass
+
+def add_email_head():
+    pass
+
+def add_notes_head():
+    pass
+
+def add_adress_head():
+    pass
+
+def find_notes_by_tages_head():
+    pass
+
+def sort_notes_by_tages_head():
+    pass
+
+def sort_files():
+    pass
+
+def guess_command():
+    pass
+
+def birthday_in_days_hand():
+    pass
+
+
 def good_buy_func ():
     print('Good bye!')
     return 'stop'
