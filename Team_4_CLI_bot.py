@@ -50,6 +50,15 @@
 #                          - "save" name - save data base in file: name (without extention) 
 #                          - "load name" - load data base from file: name (without extention) 
 #                          - "lookup' text" - find text in records (no difference which case of characters)
+#new                       - "delrec' name" - delete record from AddressBook 
+#new                       - "addemail' name email" - add email to record
+#new                       - "addnotes' name text" - add notes to record
+#new                       - "addadress' name text" - add adress to record
+#new                       - "findtag' teg_text" - looking up notes by tages (#tage#)
+#new                       - "sortnotes' teg_text" - sorting up notes by tages (#tage#)
+#new                       - "sortfiles' folder_path" - sort files in folder
+#new                       - "guess'    - switch on/ switch off guess mode ---> analizing taping and try to guess command        
+#new                       - "checkbirth' days_number - display list of contacts, who have birthday in x days
 #                          - "good bye" or "close" or "exit" - bot stops work and messege "Good bye!"
 #
 #
@@ -114,6 +123,7 @@
 
 
 
+from ast import List
 from multiprocessing.sharedctypes import Value
 import re
 from collections import UserDict
@@ -558,6 +568,14 @@ def help_func ():
 '- "save" name - save data base in file: name (without extention) \n'
 '- "load name" - load data base from file (without extention) \n'
 '- "lookup" text" - find text in records (no difference which case of characters)\n'
+'- "delrec" name" - delete record from AddressBook \n'
+'- "addemail" name email" - add email to record \n'
+'- "addnotes" name text" - add notes to record \n'
+'- "addadress" name text" - add adress to record \n'
+'- "findtag" teg_text" - looking up notes by tages \n'
+'- "sortnotes" teg_text" - sorting up notes by tages \n'
+'- "guess" - switch on/ switch off guess mode ---> analizing taping and try to guess command \n'
+'- "checkbirth" days_number - display list of contacts, who have birthday in x days \n'
 '- "good bye" or "close" or "exit" - bot stops work and messege "Good bye!" ')
     
 def save_func (name):
@@ -595,12 +613,16 @@ def lookup_func(text):
     else:
         flag_found = 0
         for key, value in add_book.data.items():                   
-            mystring = ', '.join(map(str, value.record_dict['Phone']))
+            
             datetimestring =  copy(value.record_dict['Birthday'])
             datetimestring = datetimestring.strftime('%A %d %B %Y')
             dict_for_lookup = deepcopy(value.record_dict)
-            dict_for_lookup['Phone'] = mystring
+            dict_for_lookup['Phone'] = list_string(value.record_dict['Phone'])
             dict_for_lookup['Birthday'] = datetimestring
+            dict_for_lookup['Notes'] = list_string(value.record_dict['Notes'])
+            dict_for_lookup['Email'] = list_string(value.record_dict['Email'])
+            dict_for_lookup['Adress'] = list_string(value.record_dict['Adress'])
+            
 
             for key_in, value_in in dict_for_lookup.items():
                 if  value_in.lower().find(text.lower()) >= 0:
@@ -612,32 +634,47 @@ def lookup_func(text):
         else:
             print('No information was found')
         
+@input_error
 def del_record_hand():
     pass
 
+@input_error
 def add_email_head():
     pass
 
+@input_error
 def add_notes_head():
     pass
 
+@input_error
 def add_adress_head():
     pass
 
+@input_error
 def find_notes_by_tages_head():
     pass
 
+@input_error
 def sort_notes_by_tages_head():
     pass
 
+@input_error
 def sort_files():
     pass
 
 def guess_command():
     pass
 
+@input_error
 def birthday_in_days_hand():
     pass
+
+
+def list_string(list): ### servise function for lookup function
+    if list is List: 
+        return ', '.join(map(str, list))
+    else:
+        return str(list)
 
 
 def good_buy_func ():
@@ -654,7 +691,12 @@ def main():
          'phone': phone_func, 'show': show_func, 'good': good_buy_func,\
          'close': good_buy_func, 'exit': good_buy_func, 'addnum': addnum_func, 'del': del_func,\
          'addbirth': birth_func, 'nextbirth': nextbirth_func, 'see': see_func, 'help': help_func,\
-          'save': save_func, 'load': load_func, 'lookup': lookup_func  }
+          'save': save_func, 'load': load_func, 'lookup': lookup_func,\
+          
+          'delrec': del_record_hand, 'addemail': add_email_head, 'addnotes': add_notes_head,\
+           'addadress': add_adress_head, 'findtag': find_notes_by_tages_head, 'sortnotes': sort_notes_by_tages_head, 
+           'sortfiles': sort_files, 'guess': guess_command, 'checkbirth': birthday_in_days_hand    
+                     }
     
     stop_flag = ''
       
