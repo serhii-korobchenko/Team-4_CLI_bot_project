@@ -64,7 +64,9 @@
 #
 # Class_structure:
 #                  UserDict Class:
-#                         -user has Book of Contacts (AddressBook Class): 
+#                         -user has Book of Contacts (AddressBook Class):
+#new                              |__> required (Notes Class) - one or more
+#  
 #                                 |__> records (Record Class): --> dict {Record.name.value: value}
 #                                                              --> Name object - separated atribute
 #                                                              --> Phone objects - separated atribute
@@ -76,9 +78,10 @@
 #                                                      - required (Name Class) - only one
 #                                                      - optional (Phone Class) - one or more
 #                                                      - optional (Birthday Class) - only one 
-#new                                                   - required (Notes Class) - one or more
 #new                                                   - required (Email Class) - one or more
 #new                                                   - required (Adress Class) - only one
+#
+#
 #
 #                AdressBook methods:
 
@@ -88,6 +91,12 @@
 #new_func                        - find_notes_by_tages <-- find_notes_by_tages_head - looking up notes by tages (#tage#) in []
 #new_func                        - sort_notes_by_tages <-- sort_notes_by_tages_head - sorting up notes by tages (#tage#) in []
 #new_func                        - birthday_in_days    <-- birthday_in_days_head - display list of contacts, who have birthday in x days
+#new_func                        - add_notes           <-- add_notes_head - add notes to record 
+#
+#
+#                                           Notes methods:
+#new_func                                          - change_notes  <-- change_notes_head - change notes in record
+#new_func                                          - del_notes     <-- del_notes_head -    delete notes in record 
 #
 #                                           Record methods: 
 #                                                 - add_phone <-- addnum_func - add aditional tel number for certain contact (with regex check)
@@ -95,7 +104,6 @@
 #                                                 - edit_phone <-- change_func - change telephone number for existed contact
 #                                                 - days_to_birthday <-- nextbirth_func - show how many days left up to next birthday
 #new_func                                         - add_email <-- add_email_head - add email to record (with regex check)
-#new_func                                         - add_notes <-- add_notes_head - add notes to record  
 #new_func                                         - add_adress<-- add_adress_head - add adress to record
 #
 # 
@@ -104,13 +112,7 @@
 #
 #                                                  Birthday methods:
 #                                                         - setter - check birthday format (28.05.1978)
-#
-#
-#                                                  Notes methods:
-#new_func                                                 - change_notes  <-- change_notes_head - change notes in record
-#new_func                                                 - del_notes     <-- del_notes_head -    delete notes in record  
-#
-#
+
 #
 #                                                  Email methods:
 #new_func                                                 - change_email <-- change_email_head - change email in record (with regex check)
@@ -139,6 +141,11 @@ page = 1
 
 class AddressBook (UserDict):
         
+    def __init__(self):
+        UserDict.__init__(self)
+        self.notes = Notes()
+            
+    
     def add_record(self, name, phone):
         
         self.phone = phone        
@@ -165,10 +172,14 @@ class AddressBook (UserDict):
             page += 1
             yield x
 
-    def del_record(self):
+    def del_record(self, name):
+        del self.data[name]
+
+
+    def add_notes(self):
         pass
-
-
+    
+        
     def find_notes_by_tages(self):
         pass
 
@@ -208,10 +219,10 @@ class Phone (Field):
         else:
             print ('Telephone number does not match format!')
 
-class Notes (Field):
+class Notes:
     
     def __init__(self) -> None:
-        self.value = None
+        self.value = []
     
     def change_notes(self):
         pass
@@ -286,7 +297,6 @@ class Record:
         
         self.name = Name()
         self.phone = Phone(add_book.phone)
-        self.notes = Notes()
         self.email = Email()
         self.adress = Adress()
         #self.birthday = Birthday('28.05.1978') ####
@@ -294,7 +304,6 @@ class Record:
                          'Name': self.name.value,
                          'Phone': [self.phone.value],
                          'Birthday': None,
-                         'Notes' : [self.notes.value],
                          'Email' : [self.email.value],
                          'Adress' : self.adress.value
                          }
@@ -322,10 +331,6 @@ class Record:
 
 
     def add_email(self):
-        pass
-
-
-    def add_notes(self):
         pass
 
 
@@ -613,13 +618,15 @@ def lookup_func(text):
     else:
         flag_found = 0
         for key, value in add_book.data.items():                   
-            
-            datetimestring =  copy(value.record_dict['Birthday'])
-            datetimestring = datetimestring.strftime('%A %d %B %Y')
             dict_for_lookup = deepcopy(value.record_dict)
+            if value.record_dict['Birthday']:
+                datetimestring =  copy(value.record_dict['Birthday'])
+                dict_for_lookup['Birthday']  = datetimestring.strftime('%A %d %B %Y')
+            else:
+                dict_for_lookup['Birthday'] = ''
+            
             dict_for_lookup['Phone'] = list_string(value.record_dict['Phone'])
-            dict_for_lookup['Birthday'] = datetimestring
-            dict_for_lookup['Notes'] = list_string(value.record_dict['Notes'])
+            
             dict_for_lookup['Email'] = list_string(value.record_dict['Email'])
             dict_for_lookup['Adress'] = list_string(value.record_dict['Adress'])
             
@@ -629,14 +636,31 @@ def lookup_func(text):
                     print(f'Looked up text was found in "{key}" Record, in "{key_in}" Field. in next text: "{value_in}" ')
                     flag_found += 1
 
+
+        #### Add lookup by Notes            
+
         if flag_found != 0:
             print(f'Summary: There were found {flag_found} results')
         else:
             print('No information was found')
         
 @input_error
-def del_record_hand():
-    pass
+def del_record_hand(name):   #### ---- !!!!!
+    try:
+
+        if name in add_book.data:   
+
+            add_book.del_record(name)
+
+            print(f'Record :{name} has been deleted successfully!')
+
+        else:
+            raise NameDoesNotExistError
+
+    except NameDoesNotExistError:
+
+        print('Record does not exist.') #  
+        NameDoesNotExistError.status = 1
 
 @input_error
 def add_email_head():
@@ -686,6 +710,7 @@ def main():
 
     global add_book
     add_book = AddressBook()
+
 
     commands_dict = {'hello': hello_func, 'add': add_func, 'change': change_func,\
          'phone': phone_func, 'show': show_func, 'good': good_buy_func,\
