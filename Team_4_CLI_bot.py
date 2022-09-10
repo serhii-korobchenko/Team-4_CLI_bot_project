@@ -5,7 +5,7 @@
 #                   - decorator --> Rise exceptions
 #                   - command`s processing functions (Handlers):
 #                           - hello_func                            --- first greeting
-#                           - add_func         --> add_record       --- save new contact
+#                           - add_func         --> add_record       --- create new contact
 #                           - change_func      --> edit_phone       --- change  telephone number for existed contact
 #                           - phone_func                            --- show telephone number
 #                           - show_func                             --- show all contacts (name telephone number)
@@ -69,12 +69,12 @@
 #                                                      - optional (Birthday Class) - only one 
 #new                                                   - required (Notes Class) - one or more
 #new                                                   - required (Email Class) - one or more
-#new                                                   - required (Adress Class) - one
+#new                                                   - required (Adress Class) - only one
 #
 #                AdressBook methods:
 
 #                                - add_record --> add Record in self.data
-#new_func                        - del_record
+#new_func                        - del_record <-- del_record_hand
 #                                - iterator - return --> generator by records -N records for 1 step
 #new_func                        - find_notes_by_tages <-- find_notes_by_tages_head - looking up notes by tages (#tage#) in []
 #new_func                        - sort_notes_by_tages <-- sort_notes_by_tages_head - sorting up notes by tages (#tage#) in []
@@ -365,7 +365,7 @@ def input_error(func): # decorator
 
     return inner
 
-### handlers:
+### Handlers:
 def hello_func ():
     print('How can I help you?')
 
