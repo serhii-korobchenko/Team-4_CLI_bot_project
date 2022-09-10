@@ -200,6 +200,8 @@ class Phone (Field):
 
 class Notes (Field):
     
+    def __init__(self) -> None:
+        self.value = None
     
     def change_notes(self):
         pass
@@ -209,13 +211,18 @@ class Notes (Field):
 
 
 class Email (Field):
-    
+
+    def __init__(self) -> None:
+        self.value = None
     
     def change_email(self):
         pass
 
 
 class Adress (Field):
+
+    def __init__(self) -> None:
+        self.value = None
     
     def change_adress(self):
         pass
@@ -269,11 +276,17 @@ class Record:
         
         self.name = Name()
         self.phone = Phone(add_book.phone)
+        self.notes = Notes()
+        self.email = Email()
+        self.adress = Adress()
         #self.birthday = Birthday('28.05.1978') ####
         self.record_dict = {
                          'Name': self.name.value,
                          'Phone': [self.phone.value],
-                         'Birthday': None
+                         'Birthday': None,
+                         'Notes' : [self.notes.value],
+                         'Email' : [self.email.value],
+                         'Adress' : self.adress.value
                          }
         
     def add_phone (self, name, phone):
