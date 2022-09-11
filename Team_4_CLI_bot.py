@@ -158,15 +158,36 @@ class AddressBook (UserDict):
         global page
 
         while x <= len (self.data):
-            self.data[list(self.data)[0]]
             
             mystring = ', '.join(map(str, self.data[list(self.data)[x]].record_dict['Phone']))
+            print("list(self.data)[x]", list(self.data)[x])
             if self.data[list(self.data)[x]].record_dict['Birthday']:
 
                 print(f"Name : {self.data[list(self.data)[x]].record_dict['Name']} | Telephone numbers: {mystring} | Birthday: {self.data[list(self.data)[x]].record_dict['Birthday'].strftime('%A %d %B %Y')}")
+                print("[list(self.data)[x]].record_dict['Name']", [list(self.data)[x]].record_dict['Name'])
+                #Serhii
             else:
                 
                 print(f"Name : {self.data[list(self.data)[x]].record_dict['Name']} | Telephone numbers: {mystring} ")
+                print("self.data[list(self.data)[x]].record_dict['Name']", self.data[list(self.data)[x]].record_dict['Name'])
+
+            
+            
+            #for key, value in add_book.data.items():               
+
+                #for key_in, value_in in value.record_dict.items():
+                    
+                    #if value_in:
+                        #if isinstance(value_in, list):
+                            #print (f"{key_in} : {', '.join(map(str, value_in))} | ", end = " ")
+                        #else:
+                            #print (f"{key_in} : { value_in} | ", end = " ")
+            
+            
+            
+            
+            
+            
             
             x += 1
             page += 1
@@ -478,7 +499,6 @@ def show_func ():
  
         for key, value in add_book.data.items():               
 
-
             for key_in, value_in in value.record_dict.items():
                 
                 if value_in:
@@ -486,6 +506,7 @@ def show_func ():
                         print (f"{key_in} : {', '.join(map(str, value_in))} | ", end = " ")
                     else:
                         print (f"{key_in} : { value_in} | ", end = " ")
+            print('')
      
 
 @input_error
