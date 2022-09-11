@@ -476,9 +476,8 @@ def show_func ():
         x = 0
         page = 1
  
-        for key, value in add_book.data.items():                   ### 2
-            #string_phone = ', '.join(map(str, value.record_dict['Phone']))
-            #string_email = ', '.join(map(str, value.record_dict['Email']))
+        for key, value in add_book.data.items():               
+
 
             for key_in, value_in in value.record_dict.items():
                 
@@ -487,22 +486,7 @@ def show_func ():
                         print (f"{key_in} : {', '.join(map(str, value_in))} | ", end = " ")
                     else:
                         print (f"{key_in} : { value_in} | ", end = " ")
-
-
-            
-            
-            # All fields
-            #if value.record_dict['Birthday'] and value.record_dict['Adress'] and value.record_dict['Email']:
-
-             #   print(f"Name : {key} | Telephone numbers: {string_phone} | Emails: {string_email} | Adress: {value.record_dict['Adress']} | Birthday: {value.record_dict['Birthday'].strftime('%A %d %B %Y')}")
-            
-            # 
-            
-            
-            
-            #else:
-                
-             #   print(f"Name : {key} | Telephone numbers: {string_phone} ")
+     
 
 @input_error
 def see_func (n):
