@@ -9,7 +9,7 @@
 #                           - change_func      --> edit_phone       --- change  telephone number for existed contact
 #                           - phone_func                            --- show telephone number
 #                           - show_func                             --- show all contacts (name telephone number)
-#                           - see_func                              --- show n records (you could use this command several times)
+#update                     - see_func                              --- show n records (you could use this command several times)
 #                           - addnum_func      --> add_phone        --- add aditional tel number for certain contact
 #                           - del_func         --> del_phone        --- del tel number for certain contact
 #                           - birth_func                            --- add date of birthday in data format
@@ -304,7 +304,7 @@ class Record:
                          'Name': self.name.value,
                          'Phone': [self.phone.value],
                          'Birthday': None,
-                         'Email' : [self.email.value],
+                         'Email' : None,                             #[self.email.value],
                          'Adress' : self.adress.value
                          }
         
@@ -330,8 +330,13 @@ class Record:
         print(f'{name} should wait {difference.days} days until next birthday!')
 
 
-    def add_email(self):
-        pass
+    def add_email(self, name, email):
+
+        if add_book.data[name].record_dict['Email']:
+            add_book.data[name].record_dict['Email'].append(email)
+        else:
+            add_book.data[name].record_dict['Email'] = []
+            add_book.data[name].record_dict['Email'].append(email)
 
 
     def add_adress(self):
@@ -379,7 +384,7 @@ def input_error(func): # decorator
         func(*args, **kwargs) 
 
         if TelDoesNotMathFormatError.status == 1: # added functional zone
-            print('Give me name and phone please')
+            print('Format does not match')
             TelDoesNotMathFormatError.status = 0
         elif NameDoesNotExistError.status == 1:
             print('Enter user name please')
@@ -472,13 +477,32 @@ def show_func ():
         page = 1
  
         for key, value in add_book.data.items():                   ### 2
-            mystring = ', '.join(map(str, value.record_dict['Phone']))
-            if value.record_dict['Birthday']:
+            #string_phone = ', '.join(map(str, value.record_dict['Phone']))
+            #string_email = ', '.join(map(str, value.record_dict['Email']))
 
-                print(f"Name : {key} | Telephone numbers: {mystring} | Birthday: {value.record_dict['Birthday'].strftime('%A %d %B %Y')}")
-            else:
+            for key_in, value_in in value.record_dict.items():
                 
-                print(f"Name : {key} | Telephone numbers: {mystring} ")
+                if value_in:
+                    if isinstance(value_in, list):
+                        print (f"{key_in} : {', '.join(map(str, value_in))} | ", end = " ")
+                    else:
+                        print (f"{key_in} : { value_in} | ", end = " ")
+
+
+            
+            
+            # All fields
+            #if value.record_dict['Birthday'] and value.record_dict['Adress'] and value.record_dict['Email']:
+
+             #   print(f"Name : {key} | Telephone numbers: {string_phone} | Emails: {string_email} | Adress: {value.record_dict['Adress']} | Birthday: {value.record_dict['Birthday'].strftime('%A %d %B %Y')}")
+            
+            # 
+            
+            
+            
+            #else:
+                
+             #   print(f"Name : {key} | Telephone numbers: {string_phone} ")
 
 @input_error
 def see_func (n):
@@ -663,8 +687,23 @@ def del_record_hand(name):   #### ---- !!!!!
         NameDoesNotExistError.status = 1
 
 @input_error
-def add_email_head():
-    pass
+def add_email_head(name, email):
+
+    print (email)
+    try:
+        if re.match(r"[a-z0-9]+@[a-z]+\.[a-z]{2,3}", email):
+            
+            Record().add_email(name, email) ###2
+
+            print ('Email has been added successfully!')
+        else:
+            raise TelDoesNotMathFormatError
+
+    except TelDoesNotMathFormatError:
+
+        print("Email does not match format - should be 1@1.1")
+        TelDoesNotMathFormatError.status = 1
+
 
 @input_error
 def add_notes_head():
