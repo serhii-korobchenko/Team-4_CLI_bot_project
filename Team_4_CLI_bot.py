@@ -52,6 +52,7 @@
 #                          - "lookup' text" - find text in records (no difference which case of characters)
 #new                       - "delrec' name" - delete record from AddressBook 
 #new                       - "addemail' name email" - add email to record
+#new                       - "changeemail" name new_email - change all emails on new one 
 #new                       - "addnotes' name text" - add notes to record
 #new                       - "addadress' name text" - add adress to record
 #new                       - "findtag' teg_text" - looking up notes by tages (#tage#)
@@ -236,8 +237,11 @@ class Email (Field):
     def __init__(self) -> None:
         self.value = None
     
-    def change_email(self):
-        pass
+    def change_email(self, name, new_email):
+        add_book.data[name].record_dict['Email'].clear()
+        add_book.data[name].record_dict['Email'].append(new_email)
+
+   
 
 
 class Adress (Field):
@@ -305,7 +309,7 @@ class Record:
                          'Phone': [self.phone.value],
                          'Birthday': None,
                          'Email' : None,                             #[self.email.value],
-                         'Adress' : self.adress.value
+                         'Adress' : None
                          }
         
     def add_phone (self, name, phone):
@@ -339,8 +343,9 @@ class Record:
             add_book.data[name].record_dict['Email'].append(email)
 
 
-    def add_adress(self):
-        pass
+    def add_adress(self, name, adress):
+        add_book.data[name].record_dict['Adress'] = adress
+
 
 class TelDoesNotMathFormatError(Exception):
     status = 0
@@ -371,6 +376,12 @@ def command_parser (command): # command`s parser
         command_id = parsered_list[0].lower()
         name = parsered_list[1]
         phone = parsered_list[2]
+    elif len(parsered_list) > 3:
+        command_id = parsered_list[0].lower()
+        name = parsered_list[1]
+        slice_parser = parsered_list[2:]
+        phone = ' '.join(map(str, slice_parser))
+        # phone = parsered_list[2]
     else:
         print ("Number of arguments do not fit to reqirements. Please try again!")
         
@@ -583,6 +594,7 @@ def help_func ():
 '- "lookup" text" - find text in records (no difference which case of characters)\n'
 '- "delrec" name" - delete record from AddressBook \n'
 '- "addemail" name email" - add email to record \n'
+'- "changeemail" name new_email" - change all emails on new one \n' 
 '- "addnotes" name text" - add notes to record \n'
 '- "addadress" name text" - add adress to record \n'
 '- "findtag" teg_text" - looking up notes by tages \n'
@@ -673,7 +685,6 @@ def del_record_hand(name):   #### ---- !!!!!
 @input_error
 def add_email_head(name, email):
 
-    print (email)
     try:
         if re.match(r"[a-z0-9]+@[a-z]+\.[a-z]{2,3}", email):
             
@@ -688,14 +699,40 @@ def add_email_head(name, email):
         print("Email does not match format - should be 1@1.1")
         TelDoesNotMathFormatError.status = 1
 
+@input_error
+def change_email_head(name, email):
+
+    try:
+        if re.match(r"[a-z0-9]+@[a-z]+\.[a-z]{2,3}", email):
+            
+            Email().change_email(name, email) ###2
+
+            print ('Email has been changed successfully!')
+        else:
+            raise TelDoesNotMathFormatError
+
+    except TelDoesNotMathFormatError:
+
+        print("Email does not match format - should be 1@1.1")
+        TelDoesNotMathFormatError.status = 1
+
+
 
 @input_error
 def add_notes_head():
     pass
 
 @input_error
-def add_adress_head():
-    pass
+def add_adress_head(name, adress):
+    try:
+        Record().add_adress(name, adress) ###2
+        print ('Adress has been added successfully!')   
+
+    except:
+
+        print("Adress format problem")
+        
+
 
 @input_error
 def find_notes_by_tages_head():
@@ -743,7 +780,8 @@ def main():
           
           'delrec': del_record_hand, 'addemail': add_email_head, 'addnotes': add_notes_head,\
            'addadress': add_adress_head, 'findtag': find_notes_by_tages_head, 'sortnotes': sort_notes_by_tages_head, 
-           'sortfiles': sort_files, 'guess': guess_command, 'checkbirth': birthday_in_days_hand    
+           'sortfiles': sort_files, 'guess': guess_command, 'checkbirth': birthday_in_days_hand,\
+            'changeemail': change_email_head  
                      }
     
     stop_flag = ''
