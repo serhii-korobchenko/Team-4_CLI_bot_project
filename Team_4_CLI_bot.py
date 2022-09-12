@@ -160,36 +160,14 @@ class AddressBook (UserDict):
 
         while x <= len (self.data):
             
-            mystring = ', '.join(map(str, self.data[list(self.data)[x]].record_dict['Phone']))
-            print("list(self.data)[x]", list(self.data)[x])
-            if self.data[list(self.data)[x]].record_dict['Birthday']:
-
-                print(f"Name : {self.data[list(self.data)[x]].record_dict['Name']} | Telephone numbers: {mystring} | Birthday: {self.data[list(self.data)[x]].record_dict['Birthday'].strftime('%A %d %B %Y')}")
-                print("[list(self.data)[x]].record_dict['Name']", [list(self.data)[x]].record_dict['Name'])
-                #Serhii
-            else:
-                
-                print(f"Name : {self.data[list(self.data)[x]].record_dict['Name']} | Telephone numbers: {mystring} ")
-                print("self.data[list(self.data)[x]].record_dict['Name']", self.data[list(self.data)[x]].record_dict['Name'])
-
-            
-            
-            #for key, value in add_book.data.items():               
-
-                #for key_in, value_in in value.record_dict.items():
+            for key_in, value_in in self.data[list(self.data)[x]].record_dict.items():
                     
-                    #if value_in:
-                        #if isinstance(value_in, list):
-                            #print (f"{key_in} : {', '.join(map(str, value_in))} | ", end = " ")
-                        #else:
-                            #print (f"{key_in} : { value_in} | ", end = " ")
-            
-            
-            
-            
-            
-            
-            
+                    if value_in:
+                        if isinstance(value_in, list):
+                            print (f"{key_in} : {', '.join(map(str, value_in))} | ", end = " ")
+                        else:
+                            print (f"{key_in} : { value_in} | ", end = " ") 
+
             x += 1
             page += 1
             yield x
@@ -329,7 +307,7 @@ class Record:
                          'Name': self.name.value,
                          'Phone': [self.phone.value],
                          'Birthday': None,
-                         'Email' : None,                             #[self.email.value],
+                         'Email' : None,                            
                          'Adress' : None
                          }
         
@@ -631,14 +609,28 @@ def save_func (name):
            
     with open(name + '.txt', 'w') as report:
            
-        for key, value in add_book.data.items():                   
+        for key, value in add_book.data.items():               
+
+            for key_in, value_in in value.record_dict.items():
+                
+                if value_in:
+                    if isinstance(value_in, list):
+                        report.write (f"{key_in} : {', '.join(map(str, value_in))} | ")
+                    else:
+                        report.write (f"{key_in} : { value_in} | ")
+            report.write('\n')
+        
+        
+        
+        
+        """ for key, value in add_book.data.items():                   
             mystring = ', '.join(map(str, value.record_dict['Phone']))
             if value.record_dict['Birthday']:
 
                 report.write(f"Name : {key} | Telephone numbers: {mystring} | Birthday: {value.record_dict['Birthday'].strftime('%A %d %B %Y')}\n")
             else:
                 
-                report.write(f"Name : {key} | Telephone numbers: {mystring}\n ")        
+                report.write(f"Name : {key} | Telephone numbers: {mystring}\n ")  """       
         
     print ('Data base has been saved successfully!')
 
