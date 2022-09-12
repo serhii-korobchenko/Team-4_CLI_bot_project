@@ -159,16 +159,15 @@ class AddressBook (UserDict):
         global page
 
         while x <= len (self.data):
-            self.data[list(self.data)[0]]
             
-            mystring = ', '.join(map(str, self.data[list(self.data)[x]].record_dict['Phone']))
-            if self.data[list(self.data)[x]].record_dict['Birthday']:
+            for key_in, value_in in self.data[list(self.data)[x]].record_dict.items():
+                    
+                    if value_in:
+                        if isinstance(value_in, list):
+                            print (f"{key_in} : {', '.join(map(str, value_in))} | ", end = " ")
+                        else:
+                            print (f"{key_in} : { value_in} | ", end = " ") 
 
-                print(f"Name : {self.data[list(self.data)[x]].record_dict['Name']} | Telephone numbers: {mystring} | Birthday: {self.data[list(self.data)[x]].record_dict['Birthday'].strftime('%A %d %B %Y')}")
-            else:
-                
-                print(f"Name : {self.data[list(self.data)[x]].record_dict['Name']} | Telephone numbers: {mystring} ")
-            
             x += 1
             page += 1
             yield x
@@ -308,7 +307,7 @@ class Record:
                          'Name': self.name.value,
                          'Phone': [self.phone.value],
                          'Birthday': None,
-                         'Email' : None,                             #[self.email.value],
+                         'Email' : None,                            
                          'Adress' : None
                          }
         
@@ -489,7 +488,6 @@ def show_func ():
  
         for key, value in add_book.data.items():               
 
-
             for key_in, value_in in value.record_dict.items():
                 
                 if value_in:
@@ -497,6 +495,7 @@ def show_func ():
                         print (f"{key_in} : {', '.join(map(str, value_in))} | ", end = " ")
                     else:
                         print (f"{key_in} : { value_in} | ", end = " ")
+            print('')
      
 
 @input_error
@@ -610,14 +609,28 @@ def save_func (name):
            
     with open(name + '.txt', 'w') as report:
            
-        for key, value in add_book.data.items():                   
+        for key, value in add_book.data.items():               
+
+            for key_in, value_in in value.record_dict.items():
+                
+                if value_in:
+                    if isinstance(value_in, list):
+                        report.write (f"{key_in} : {', '.join(map(str, value_in))} | ")
+                    else:
+                        report.write (f"{key_in} : { value_in} | ")
+            report.write('\n')
+        
+        
+        
+        
+        """ for key, value in add_book.data.items():                   
             mystring = ', '.join(map(str, value.record_dict['Phone']))
             if value.record_dict['Birthday']:
 
                 report.write(f"Name : {key} | Telephone numbers: {mystring} | Birthday: {value.record_dict['Birthday'].strftime('%A %d %B %Y')}\n")
             else:
                 
-                report.write(f"Name : {key} | Telephone numbers: {mystring}\n ")        
+                report.write(f"Name : {key} | Telephone numbers: {mystring}\n ")  """       
         
     print ('Data base has been saved successfully!')
 
