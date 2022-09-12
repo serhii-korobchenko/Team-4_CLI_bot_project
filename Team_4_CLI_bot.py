@@ -762,6 +762,7 @@ def sort_files():
 def guess_command():
     pass
 
+
 @input_error
 def birthday_in_days_hand():
     pass
