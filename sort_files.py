@@ -37,7 +37,7 @@ def handle_folder(folder: Path):
         print(f'Error deleted {folder}')
 
 
-def main(folder: Path):
+def main_sort_files(folder: Path):
     parser.scan(folder)
     for file in parser.JPEG_IMAGES:
         handle_media(file, folder / 'images' / 'JPEG')
@@ -60,9 +60,9 @@ def main(folder: Path):
 
 
 if __name__ == '__main__':
-    if sys.argv[1]:
-        folder_for_scan = Path(sys.argv[1])
-        print(f'Start in folder {folder_for_scan.resolve()}')
-        main(folder_for_scan.resolve())
+    
+    folder_for_scan = Path('D:\Test')
+    print(f'Start in folder {folder_for_scan.resolve()}')
+    main_sort_files(folder_for_scan.resolve())
 
 # start:  python main.py `Name of Folder`
