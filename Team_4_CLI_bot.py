@@ -133,11 +133,11 @@ from ast import List
 from multiprocessing.sharedctypes import Value
 import re
 from collections import UserDict
-from datetime import datetime
+from datetime import datetime, timedelta
 import pickle
 from copy import copy, deepcopy
 import csv
-from endless_typing import main_guess
+# from endless_typing import main_guess
 
 
 # GLOBALS
@@ -227,8 +227,21 @@ class AddressBook (UserDict):
             print(k, result[k])
 ##################################################################
 
-    def birthday_in_days(self):
-        pass
+
+# last change 13.09.2022 Vadim
+
+
+    def birthday_in_days(self, name):  # name=cnt_day
+        # передається кількість днів введена користувачем, вже провалідована в хендлері
+        self.cnt_day = name
+        self.sys_dt = datetime.now().date()  # поточна дата
+        # поточна дата плюс кількість днів введена користувачем
+        self.day_dt = self.sys_dt + timedelta(days=self.cnt_day)
+        # тепер треба зчитати файл що зберігає інфо і вибрати тільки ті записи у яких день народження
+        # потрапляє в інтервал між self.sys_dt  і self.day_dt
+
+
+##################################################################
 
 
 class Field:
@@ -898,9 +911,26 @@ def guess_command():
     pass
 
 
-@input_error
-def birthday_in_days_hand():
-    pass
+# last change 13.09.2022
+def birthday_in_days_hand(name):  # name=cnt_day
+
+    list_day = []
+
+    try:
+        name == int(name)
+    except ValueError:
+        print(f'{name} is not number or {name} not between 1 and 365, try again')
+
+    name = int(name)
+
+    for i in range(1, 365):
+        list_day.append(i)
+
+    if name in list_day:
+        add_book.birthday_in_days(name)
+    else:
+        print(f'{name} is not between 1 and 365')
+###################################
 
 
 def list_string(list):  # servise function for lookup function
@@ -947,40 +977,17 @@ def main():
                 for key, value in add_book.items():
                     print(f'Name: {key}, Record: {value.record_dict}') """
 
-            command = input("Please, put you command in Command line! (from 1 to 3 arguments): ")   
+            command = input(
+                "Please, put you command in Command line! (from 1 to 3 arguments): ")
             if command == 'guess':
-                for key in  commands_dict:
-                    command_list.append(key)           
-                
-                main_guess(command_list)
-                
-            
-            
+                for key in commands_dict:
+                    command_list.append(key)
 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            command_id, name, phone = command_parser(command)  # passing vars to another func
+                # main_guess(command_list)
+
+            command_id, name, phone = command_parser(
+                command)  # passing vars to another func
+
             for key, value in commands_dict.items():
                 if command_id == key and name == '' and phone == '':
                     res = value()
