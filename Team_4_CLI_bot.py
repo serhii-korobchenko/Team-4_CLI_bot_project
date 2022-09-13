@@ -198,7 +198,9 @@ class AddressBook (UserDict):
             # writer.writeheader()
             writer.writerow({'tag': self.tag, 'note': self.note})
 
-        print(f"Note with tag {self.tag} added")
+        return self.tag
+
+        
 
     def find_notes_by_tages(self, name):  # name=tag
 
@@ -606,6 +608,15 @@ def show_func():
                         print(f"{key_in} : { value_in} | ", end=" ")
             print('')
 
+### Notes show
+        print('')
+        print('EXISTED NOTES:')
+        for key, value in add_book.notes_data.items():
+   
+            print(f"Tag: {key} | Note: { value}  ")
+        
+        print('')
+
 
 @input_error
 def see_func(n):
@@ -722,6 +733,7 @@ def save_func(name):
 
     with open(name + '.obj', 'wb') as report:
         pickle.dump(add_book.data, report)
+        pickle.dump(add_book.notes_data, report)
 
     with open(name + '.txt', 'w') as report:
 
@@ -752,9 +764,10 @@ def save_func(name):
 def load_func(name):
     try:
         add_book.add_record('XXX', '0000000000')
+        add_book.add_notes('XXX', '0000000000')
         with open(name + '.obj', 'rb') as report:
             add_book.data = pickle.load(report)
-
+            add_book.notes_data = pickle.load(report)
             print('Data base has been loaded successfully!')
 
     except FileNotFoundError:
@@ -788,12 +801,23 @@ def lookup_func(text):
                         f'Looked up text was found in "{key}" Record, in "{key_in}" Field. in next text: "{value_in}" ')
                     flag_found += 1
 
-        # Add lookup by Notes
+    # Add lookup by Notes
+    if len(add_book.notes_data) == 0:
+        print('There is not any notes yet. Please add something!')
+    else:
+        for key, value in add_book.notes_data.items():
+            if value.lower().find(text.lower()) >= 0:
+                print(f'Looked up text was found in Notes :"{value}" with next tags: "{key}"')
+                flag_found += 1
 
-        if flag_found != 0:
-            print(f'Summary: There were found {flag_found} results')
-        else:
-            print('No information was found')
+    if flag_found != 0:
+        print(f'Summary: There were found {flag_found} results')
+    else:
+        print('No information was found')
+        
+        
+        
+        
 
 
 @input_error
@@ -866,7 +890,8 @@ def add_adress_head(name, adress):
 
 
 def add_notes_head(name, phone):  # name=tag phone=note
-    add_book.add_notes(name, phone)
+    tag = add_book.add_notes(name, phone)
+    print(f"Note with tag {tag} added")
 
 
 def find_notes_by_tages_head(name):  # name=tag
@@ -897,6 +922,8 @@ def sort_files(path):
     print('Files have been sorted successfully!')
 
 
+def guess_command():
+    pass
 
 
 @input_error
