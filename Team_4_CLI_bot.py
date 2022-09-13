@@ -815,6 +815,21 @@ def main():
                 for key, value in add_book.items():
                     print(f'Name: {key}, Record: {value.record_dict}') """
             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             command = input("Please, put you command in Command line! (from 1 to 3 arguments): ")   
             if command == 'guess':
                 for key in  commands_dict:
