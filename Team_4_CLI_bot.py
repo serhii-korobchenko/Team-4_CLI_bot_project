@@ -136,20 +136,15 @@ from collections import UserDict
 from datetime import datetime
 import pickle
 from copy import copy, deepcopy
-
-
-
-
-
-
-
 import csv
+from endless_typing import main_guess
 
 
 # GLOBALS
 
 x = 0
 page = 1
+command_list = []
 
 
 class AddressBook (UserDict):
@@ -952,9 +947,16 @@ def main():
                 for key, value in add_book.items():
                     print(f'Name: {key}, Record: {value.record_dict}') """
 
-            command = input(
-                "Please, put you command in Command line! (from 1 to 3 arguments): ")
+            command = input("Please, put you command in Command line! (from 1 to 3 arguments): ")   
+            if command == 'guess':
+                for key in  commands_dict:
+                    command_list.append(key)           
+                
+                main_guess(command_list)
+                
             
+            
+
             
             
             
