@@ -244,7 +244,7 @@ class AddressBook (UserDict):
             
         if flag_birth == 0:
             print (f'No one  has birthday in {number_days} days!')
-            
+            print(checked_date)
                     
         
 
