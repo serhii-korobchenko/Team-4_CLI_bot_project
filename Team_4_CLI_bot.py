@@ -138,6 +138,8 @@ import pickle
 from copy import copy, deepcopy
 import csv
 from endless_typing import main_guess
+from sort_files import main_sort_files
+from pathlib import Path
 
 
 # GLOBALS
@@ -890,12 +892,11 @@ def change_notes_by_tages_head(name, phone):  # name=tag phone=note
 
 
 @input_error
-def sort_files():
-    pass
+def sort_files(path):
+    main_sort_files (Path(path).resolve())
+    print('Files have been sorted successfully!')
 
 
-def guess_command():
-    pass
 
 
 @input_error
