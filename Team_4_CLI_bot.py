@@ -763,8 +763,8 @@ def save_func(name):
 
 def load_func(name):
     try:
-        add_book.add_record('XXX', '0000000000')
-        add_book.add_notes('XXX', '0000000000')
+        add_book.add_record('load', 'load')
+        add_book.add_notes('load', 'load')
         with open(name + '.obj', 'rb') as report:
             add_book.data = pickle.load(report)
             add_book.notes_data = pickle.load(report)
