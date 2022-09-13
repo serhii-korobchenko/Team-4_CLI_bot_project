@@ -954,23 +954,31 @@ def main():
 
             command = input(
                 "Please, put you command in Command line! (from 1 to 3 arguments): ")
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             command_id, name, phone = command_parser(command)  # passing vars to another func
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             for key, value in commands_dict.items():
                 if command_id == key and name == '' and phone == '':
                     res = value()
