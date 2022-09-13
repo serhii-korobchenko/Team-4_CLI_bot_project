@@ -153,7 +153,7 @@ class AddressBook (UserDict):
 
     def __init__(self):
         UserDict.__init__(self)
-        self.notes = Notes()
+        self.notes_data = {}
 
     def add_record(self, name, phone):
 
@@ -189,7 +189,7 @@ class AddressBook (UserDict):
 
         self.tag = name
         self.note = phone
-        self.notes_data = {}
+        #self.notes_data = {}
         self.notes_data.update({self.tag: self.note})
 
         with open('notes.csv', 'a', newline='') as fh:
@@ -806,9 +806,13 @@ def lookup_func(text):
         print('There is not any notes yet. Please add something!')
     else:
         for key, value in add_book.notes_data.items():
+            if key.lower().find(text.lower()) >= 0:
+                print(f'Looked up text was found in tag :"{key}" for next Note: "{value}"')
+                flag_found += 1
             if value.lower().find(text.lower()) >= 0:
                 print(f'Looked up text was found in Notes :"{value}" with next tags: "{key}"')
                 flag_found += 1
+             
 
     if flag_found != 0:
         print(f'Summary: There were found {flag_found} results')
