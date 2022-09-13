@@ -136,6 +136,13 @@ from collections import UserDict
 from datetime import datetime
 import pickle
 from copy import copy, deepcopy
+
+
+
+
+
+
+
 import csv
 
 
@@ -939,7 +946,6 @@ def main():
         try:
 
             print('')
-
             """ if len(add_book) == 0: # Print_to_check_addressbook
                 print(add_book)
             else: 
@@ -948,8 +954,22 @@ def main():
 
             command = input(
                 "Please, put you command in Command line! (from 1 to 3 arguments): ")
-            command_id, name, phone = command_parser(
-                command)  # passing vars to another func
+            command_id, name, phone = command_parser(command)  # passing vars to another func
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             for key, value in commands_dict.items():
                 if command_id == key and name == '' and phone == '':
