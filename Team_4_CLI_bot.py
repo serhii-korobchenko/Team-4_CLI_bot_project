@@ -29,7 +29,7 @@
 # new_func+                  - change_notes_by_tages_head --> sort_notes_by_tages --- change notes by tages (#tage#)
 # new_func+                  - sort_files                                       --- sort files in folder
 # new_func+                  - guess_command                                    --- analizing taping and try to guess command
-# new_func                   - birthday_in_days_hand    --> birthday_in_days    --- display list of contacts, who have birthday in x days
+# new_func+                  - birthday_in_days_hand    --> birthday_in_days    --- display list of contacts, who have birthday in x days
 #
 #
 #                   - request-answear loop
@@ -63,8 +63,8 @@
 # new+                      - "changenotes' teg_text" - change notes by tages (#tage#)
 # new+                      - "sortfiles' folder_path" - sort files in folder
 # new+                      - "guess'    - switch on guess mode ---> analizing taping and try to guess command
-# new                       - "checkbirth' days_number - display list of contacts, who have birthday in x days
-#                          - "good bye" or "close" or "exit" - bot stops work and messege "Good bye!"
+# new+                      - "checkbirth' days_number - display list of contacts, who have birthday in x days
+#                           - "good bye" or "close" or "exit" - bot stops work and messege "Good bye!"
 #
 #
 # Class_structure:
@@ -200,8 +200,6 @@ class AddressBook (UserDict):
 
         return self.tag
 
-        
-
     def find_notes_by_tages(self, name):  # name=tag
 
         self.tag = name
@@ -244,9 +242,7 @@ class AddressBook (UserDict):
             
         if flag_birth == 0:
             print (f'No one  has birthday in {number_days} days!')
-            
-                    
-        
+                   
 
 class Field:
     pass
@@ -277,9 +273,6 @@ class Phone (Field):
 
         else:
             print('Telephone number does not match format!')
-
-# last change 12.09.2022 Vadim
-
 
 class Notes:
 
@@ -361,7 +354,6 @@ class Adress (Field):
     def change_adress(self):
         pass
 
-
 class Birthday (Field):
 
     def __init__(self, value=None) -> None:
@@ -402,8 +394,6 @@ class Birthday (Field):
         except ValueError:
             print("You have to set date in next format: 1-31.1-12.0000-9999!")
             TryAgainError.status = 1
-
-
 class Record:
 
     def __init__(self) -> None:
@@ -455,22 +445,17 @@ class Record:
     def add_adress(self, name, adress):
         add_book.data[name].record_dict['Adress'] = adress
 
-
 class TelDoesNotMathFormatError(Exception):
     status = 0
-
 
 class BirthdayDoesNotMathFormatError(Exception):
     status = 0
 
-
 class NameDoesNotExistError(Exception):
     status = 0
 
-
 class TryAgainError(Exception):
     status = 0
-
 
 def command_parser(command):  # command`s parser
     command_id = ''
@@ -501,8 +486,6 @@ def command_parser(command):  # command`s parser
     return command_id, name, phone
 
 # Decorator
-
-
 def input_error(func):  # decorator
 
     def inner(*args, **kwargs):
@@ -525,11 +508,8 @@ def input_error(func):  # decorator
     return inner
 
 # Handlers:
-
-
 def hello_func():
     print('How can I help you?')
-
 
 @input_error
 def add_func(name, phone):  # 1&2
@@ -547,7 +527,6 @@ def add_func(name, phone):  # 1&2
 
         print("Telephone number does not match format - should be 10 digits")
         TelDoesNotMathFormatError.status = 1
-
 
 @input_error
 def change_func(name, phone):  # 1&2
@@ -575,7 +554,6 @@ def change_func(name, phone):  # 1&2
         print('Name does not exist')
         NameDoesNotExistError.status = 1
 
-
 @input_error
 def phone_func(name):  # 1&2
 
@@ -595,7 +573,6 @@ def phone_func(name):  # 1&2
 
         print('Name does not exist.')  # - decorator
         NameDoesNotExistError.status = 1
-
 
 def show_func():
     global x
@@ -630,7 +607,6 @@ def show_func():
         
             print('')
 
-
 @input_error
 def see_func(n):
 
@@ -649,7 +625,6 @@ def see_func(n):
 
         print(f"Sorry, no more records! Use 'show all' command!")
 
-
 @input_error
 def addnum_func(name, phone):  # 1&2
 
@@ -666,7 +641,6 @@ def addnum_func(name, phone):  # 1&2
 
         print("Telephone number does not match format - should be 10 digits")
         TelDoesNotMathFormatError.status = 1
-
 
 @input_error
 def del_func(name, phone):  # 1&2
@@ -689,12 +663,10 @@ def del_func(name, phone):  # 1&2
         print("Number assigned for deletion does not exist!")
         TryAgainError.status = 1
 
-
 @input_error
 def birth_func(name, birthday):  # 1&2
 
     add_book.data[name].record_dict['Birthday'] = Birthday(birthday).value
-
 
 @input_error
 def nextbirth_func(name):  # 1&2
@@ -710,7 +682,6 @@ def nextbirth_func(name):  # 1&2
     except AttributeError:
         print("You have to add your birthday before this operation!")
         TryAgainError.status = 1
-
 
 def help_func():
     print(' Bot undestands next commands:\n'
@@ -741,12 +712,11 @@ def help_func():
           '- "checkbirth" days_number - display list of contacts, who have birthday in x days \n'
           '- "good bye" or "close" or "exit" - bot stops work and messege "Good bye!" ')
 
-
 def save_func(name):
 
     with open(name + '.obj', 'wb') as report:
         pickle.dump(add_book.data, report)
-        pickle.dump(add_book.notes_data, report)
+        #pickle.dump(add_book.notes_data, report)
 
     with open(name + '.txt', 'w') as report:
 
@@ -762,31 +732,26 @@ def save_func(name):
                         report.write(f"{key_in} : { value_in} | ")
             report.write('\n')
 
-        """ for key, value in add_book.data.items():                   
-            mystring = ', '.join(map(str, value.record_dict['Phone']))
-            if value.record_dict['Birthday']:
-
-                report.write(f"Name : {key} | Telephone numbers: {mystring} | Birthday: {value.record_dict['Birthday'].strftime('%A %d %B %Y')}\n")
-            else:
-                
-                report.write(f"Name : {key} | Telephone numbers: {mystring}\n ")  """
-
-    print('Data base has been saved successfully!')
-
-
 def load_func(name):
     try:
         add_book.add_record('load', '0000000000')
         add_book.add_notes('load', '0000000000')
+        
         with open(name + '.obj', 'rb') as report:
             add_book.data = pickle.load(report)
-            add_book.notes_data = pickle.load(report)
+            
+        with open('notes.csv', newline='') as fh:
+            reader = csv.DictReader(fh)
+            for row in reader:
+                add_book.notes_data[row['tag']] = row['note']
+                
+                
+            #add_book.notes_data = pickle.load(report)
             print('Data base has been loaded successfully!')
 
     except FileNotFoundError:
         print(
             "File not found! Please, make sure file is exist or name was written correctly!")
-
 
 def lookup_func(text):
     if len(add_book.data) == 0:
@@ -826,17 +791,11 @@ def lookup_func(text):
                 print(f'Looked up text was found in Notes :"{value}" with next tags: "{key}"')
                 flag_found += 1
              
-
     if flag_found != 0:
         print(f'Summary: There were found {flag_found} results')
     else:
         print('No information was found')
         
-        
-        
-        
-
-
 @input_error
 def del_record_hand(name):  # ---- !!!!!
     try:
@@ -855,7 +814,6 @@ def del_record_hand(name):  # ---- !!!!!
         print('Record does not exist.')
         NameDoesNotExistError.status = 1
 
-
 @input_error
 def add_email_head(name, email):
 
@@ -872,7 +830,6 @@ def add_email_head(name, email):
 
         print("Email does not match format - should be 1@1.1")
         TelDoesNotMathFormatError.status = 1
-
 
 @input_error
 def change_email_head(name, email):
@@ -891,7 +848,6 @@ def change_email_head(name, email):
         print("Email does not match format - should be 1@1.1")
         TelDoesNotMathFormatError.status = 1
 
-
 @input_error
 def add_adress_head(name, adress):
     try:
@@ -902,8 +858,6 @@ def add_adress_head(name, adress):
 
         print("Adress format problem")
 
-
-# last change 12.09.2022 Vadim
 
 
 def add_notes_head(name, phone):  # name=tag phone=note
@@ -925,13 +879,11 @@ def del_notes_by_tages_head(name):  # name=tag
     except KeyError:
         print(f"Tag {name} not found")
 
-
 def change_notes_by_tages_head(name, phone):  # name=tag phone=note
     try:
         Notes().change_notes(name, phone)
     except KeyError:
         print(f"Tag {name} not found")
-
 
 @input_error
 def sort_files(path):
@@ -941,7 +893,6 @@ def sort_files(path):
 
 def guess_command():
     pass
-
 
 @input_error
 def birthday_in_days_hand(number_days):
@@ -986,44 +937,12 @@ def main():
         try:
 
             print('')
-            """ if len(add_book) == 0: # Print_to_check_addressbook
-                print(add_book)
-            else: 
-                for key, value in add_book.items():
-                    print(f'Name: {key}, Record: {value.record_dict}') """
-
             command = input("Please, put you command in Command line! (from 1 to 3 arguments): ")   
             if command == 'guess':
                 for key in  commands_dict:
                     command_list.append(key)           
                 
-                main_guess(command_list)
-                
-            
-            
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+                main_guess(command_list)  
             
             command_id, name, phone = command_parser(command)  # passing vars to another func
             for key, value in commands_dict.items():
@@ -1055,5 +974,4 @@ def main():
 
 
 if __name__ == '__main__':
-
     main()
