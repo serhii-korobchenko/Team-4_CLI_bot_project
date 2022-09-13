@@ -126,7 +126,8 @@
 #                                                  Adress methods:
 # new_func                                                 - change_adress <-- change_adress_head - change adress in record
 #
-#
+#! new_func                          - Inside Sort folder has been added functionality for sort by extension. 
+#!                                     For starting using it please follow command inside Sort folder
 
 
 from ast import List
