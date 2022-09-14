@@ -186,7 +186,6 @@ class AddressBook (UserDict):
     def del_record(self, name):
         del self.data[name]
 
-# last change 12.09.2022 Vadim
     def add_notes(self, name, phone):  # name=tag phone=note
 
         self.tag = name
@@ -726,7 +725,6 @@ def save_func(name):
 
     with open(name + '.obj', 'wb') as report:
         pickle.dump(add_book.data, report)
-        #pickle.dump(add_book.notes_data, report)
 
     with open(name + '.txt', 'w') as report:
 
@@ -906,7 +904,12 @@ def guess_command():
 
 @input_error
 def birthday_in_days_hand(number_days):
-    add_book.birthday_in_days(number_days)
+    try:
+        add_book.birthday_in_days(number_days)
+
+    except AttributeError:
+
+        print ('It seems you do not added birthday yet for that contact!')
 
 
 def list_string(list):  # servise function for lookup function
