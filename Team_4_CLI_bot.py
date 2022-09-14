@@ -128,7 +128,7 @@
 #
 #
 
-
+import os
 from ast import List
 from multiprocessing.sharedctypes import Value
 import re
@@ -154,6 +154,8 @@ class AddressBook (UserDict):
     def __init__(self):
         UserDict.__init__(self)
         self.notes_data = {}
+        
+
 
     def add_record(self, name, phone):
 
@@ -192,12 +194,20 @@ class AddressBook (UserDict):
         #self.notes_data = {}
         self.notes_data.update({self.tag: self.note})
 
-        with open('notes.csv', 'a', newline='') as fh:
-            field_names = ['tag', 'note']
-            writer = csv.DictWriter(fh, fieldnames=field_names)
-            # writer.writeheader()
-            writer.writerow({'tag': self.tag, 'note': self.note})
+        if(os.path.exists('notes.csv') and os.path.isfile('notes.csv')):
+            with open('notes.csv', 'a', newline='') as fh:
+                field_names = ['tag', 'note']
+                writer = csv.DictWriter(fh, fieldnames=field_names)
+                writer.writerow({'tag': self.tag, 'note': self.note})
 
+        else:
+            with open('notes.csv', 'w', newline='') as fh:
+                field_names = ['tag', 'note']
+                writer = csv.DictWriter(fh, fieldnames=field_names)
+                writer.writeheader()
+                writer.writerow({'tag': self.tag, 'note': self.note})
+
+        
         return self.tag
 
     def find_notes_by_tages(self, name):  # name=tag
@@ -599,13 +609,13 @@ def show_func():
             print('')
 
 ### Notes show
+    print('')
+    print('EXISTED NOTES:')
+    for key, value in add_book.notes_data.items():
+
+        print(f"Tag: {key} | Note: { value}  ")
+    
         print('')
-        print('EXISTED NOTES:')
-        for key, value in add_book.notes_data.items():
-   
-            print(f"Tag: {key} | Note: { value}  ")
-        
-            print('')
 
 @input_error
 def see_func(n):
@@ -917,6 +927,14 @@ def main():
 
     global add_book
     add_book = AddressBook()
+    
+    ### Reading existed notes
+    if(os.path.exists('notes.csv') and os.path.isfile('notes.csv')):
+            with open('notes.csv', newline='') as fh:
+                reader = csv.DictReader(fh)
+                for row in reader:
+                    add_book.notes_data[row['tag']] = row['note']
+
 
     commands_dict = {'hello': hello_func, 'add': add_func, 'change': change_func,
                      'phone': phone_func, 'show': show_func, 'good': good_buy_func,
