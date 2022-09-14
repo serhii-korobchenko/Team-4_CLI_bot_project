@@ -741,6 +741,8 @@ def save_func(name):
                     else:
                         report.write(f"{key_in} : { value_in} | ")
             report.write('\n')
+        
+        print('Data base has been saved successfully!')
 
 def load_func(name):
     try:
@@ -755,8 +757,6 @@ def load_func(name):
             for row in reader:
                 add_book.notes_data[row['tag']] = row['note']
                 
-                
-            #add_book.notes_data = pickle.load(report)
             print('Data base has been loaded successfully!')
 
     except FileNotFoundError:
