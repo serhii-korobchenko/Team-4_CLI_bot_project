@@ -866,8 +866,6 @@ def add_adress_head(name, adress):
 
         print("Adress format problem")
 
-
-
 def add_notes_head(name, phone):  # name=tag phone=note
     tag = add_book.add_notes(name, phone)
     print(f"Note with tag {tag} added")
