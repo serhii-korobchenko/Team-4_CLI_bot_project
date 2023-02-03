@@ -1,0 +1,32 @@
+# PynSource Version 1.2
+{'type':'meta', 'info1':'Lorem ipsum dolor sit amet, consectetur adipiscing elit is latin. Comments are saved.'}
+{'type':'umlshape', 'id':'AddressBook', 'x':324, 'y':177, 'width':162, 'height':266, 'attrs': 'data|note|notes_data|phone|tag', 'meths': '__init__|add_notes|add_record|birthday_in_days|del_record|find_notes_by_tages|iterator|sort_notes_by_tages'}
+{'type':'umlshape', 'id':'Field', 'x':172, 'y':8, 'width':60, 'height':28, 'attrs': '', 'meths': ''}
+{'type':'umlshape', 'id':'Name', 'x':69, 'y':48, 'width':50, 'height':64, 'attrs': 'value', 'meths': ''}
+{'type':'umlshape', 'id':'Phone', 'x':79, 'y':162, 'width':74, 'height':106, 'attrs': '__value|value', 'meths': '__init__'}
+{'type':'umlshape', 'id':'Notes', 'x':10, 'y':318, 'width':106, 'height':138, 'attrs': 'note|result|tag', 'meths': 'change_notes|del_notes'}
+{'type':'umlshape', 'id':'Email', 'x':282, 'y':10, 'width':106, 'height':106, 'attrs': 'value', 'meths': '__init__|change_email'}
+{'type':'umlshape', 'id':'Adress', 'x':186, 'y':137, 'width':114, 'height':106, 'attrs': 'value', 'meths': '__init__|change_adress'}
+{'type':'umlshape', 'id':'Birthday', 'x':438, 'y':21, 'width':90, 'height':106, 'attrs': '__value|value', 'meths': '__init__'}
+{'type':'umlshape', 'id':'Record', 'x':136, 'y':318, 'width':138, 'height':250, 'attrs': 'adress|email|name|phone|record_dict', 'meths': '__init__|add_adress|add_email|add_phone|days_to_birthday|del_phone|edit_phone'}
+{'type':'umlshape', 'id':'TelDoesNotMathFormatError', 'x':536, 'y':177, 'width':260, 'height':64, 'attrs': 'status', 'meths': ''}
+{'type':'umlshape', 'id':'BirthdayDoesNotMathFormatError', 'x':337, 'y':493, 'width':310, 'height':64, 'attrs': 'status', 'meths': ''}
+{'type':'umlshape', 'id':'NameDoesNotExistError', 'x':501, 'y':291, 'width':220, 'height':64, 'attrs': 'status', 'meths': ''}
+{'type':'umlshape', 'id':'TryAgainError', 'x':771, 'y':291, 'width':140, 'height':64, 'attrs': 'status', 'meths': ''}
+{'type':'umlshape', 'id':'Exception', 'x':536, 'y':405, 'width':100, 'height':28, 'attrs': '', 'meths': ''}
+{'type':'umlshape', 'id':'UserDict', 'x':433, 'y':129, 'width':90, 'height':28, 'attrs': '', 'meths': ''}
+{'type':'edge', 'id':'TryAgainError_to_Exception', 'source':'TryAgainError', 'target':'Exception', 'uml_edge_type': 'generalisation'}
+{'type':'edge', 'id':'Phone_to_Field', 'source':'Phone', 'target':'Field', 'uml_edge_type': 'generalisation'}
+{'type':'edge', 'id':'Name_to_Field', 'source':'Name', 'target':'Field', 'uml_edge_type': 'generalisation'}
+{'type':'edge', 'id':'Birthday_to_Field', 'source':'Birthday', 'target':'Field', 'uml_edge_type': 'generalisation'}
+{'type':'edge', 'id':'AddressBook_to_UserDict', 'source':'AddressBook', 'target':'UserDict', 'uml_edge_type': 'generalisation'}
+{'type':'edge', 'id':'Email_to_Field', 'source':'Email', 'target':'Field', 'uml_edge_type': 'generalisation'}
+{'type':'edge', 'id':'NameDoesNotExistError_to_Exception', 'source':'NameDoesNotExistError', 'target':'Exception', 'uml_edge_type': 'generalisation'}
+{'type':'edge', 'id':'Adress_to_Field', 'source':'Adress', 'target':'Field', 'uml_edge_type': 'generalisation'}
+{'type':'edge', 'id':'BirthdayDoesNotMathFormatError_to_Exception', 'source':'BirthdayDoesNotMathFormatError', 'target':'Exception', 'uml_edge_type': 'generalisation'}
+{'type':'edge', 'id':'TelDoesNotMathFormatError_to_Exception', 'source':'TelDoesNotMathFormatError', 'target':'Exception', 'uml_edge_type': 'generalisation'}
+{'type':'edge', 'id':'Name_to_Record', 'source':'Name', 'target':'Record', 'uml_edge_type': 'composition'}
+{'type':'edge', 'id':'Phone_to_Record', 'source':'Phone', 'target':'Record', 'uml_edge_type': 'composition'}
+{'type':'edge', 'id':'Email_to_Record', 'source':'Email', 'target':'Record', 'uml_edge_type': 'composition'}
+{'type':'edge', 'id':'Record_to_AddressBook', 'source':'Record', 'target':'AddressBook', 'uml_edge_type': 'composition'}
+{'type':'edge', 'id':'Adress_to_Record', 'source':'Adress', 'target':'Record', 'uml_edge_type': 'composition'}
